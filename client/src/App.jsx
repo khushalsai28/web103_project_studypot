@@ -1,82 +1,48 @@
-import { useEffect, useState } from 'react'
+import { BrowserRouter, Link, Route, Routes, useParams } from 'react-router-dom'
+import Dashboard from './pages/Dashboard.jsx'
 import './App.css'
 
-function App() {
-  const [apiStatus, setApiStatus] = useState('checking')
-
-  useEffect(() => {
-    let active = true
-
-    fetch('/api/health')
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`API responded with status ${response.status}`)
-        }
-
-        return response.json()
-      })
-      .then((data) => {
-        if (active) {
-          setApiStatus(data.message)
-        }
-      })
-      .catch(() => {
-        if (active) {
-          setApiStatus('Unable to connect to the API')
-        }
-      })
-
-    return () => {
-      active = false
-    }
-  }, [])
-
-  const isConnected = apiStatus === 'StudyPot API is running'
+function SessionDetailsPlaceholder() {
+  const { id } = useParams()
 
   return (
-    <main className="app-shell">
+    <section className="empty-panel">
+      <p className="eyebrow">Study session</p>
+      <h1>Session details</h1>
+      <p>The details for session {id} will be available here.</p>
+      <Link className="text-link" to="/">Back to sessions</Link>
+    </section>
+  )
+}
+
+function AppLayout() {
+  return (
+    <div className="app-shell">
       <header className="site-header">
-        <a className="wordmark" href="/" aria-label="StudyPot home">
+        <Link className="wordmark" to="/" aria-label="StudyPot home">
           <span className="wordmark-icon" aria-hidden="true">s</span>
           <span>studypot</span>
-        </a>
-        <span className="header-note">Find your focus, together.</span>
+        </Link>
+        <nav className="site-nav" aria-label="Main navigation">
+          <Link to="/">Discover</Link>
+          <span className="student-label">Alex Morgan</span>
+        </nav>
       </header>
 
-      <section className="welcome-card" aria-labelledby="welcome-heading">
-        <div className="welcome-copy">
-          <p className="eyebrow">A little more focus, a lot more together</p>
-          <h1 id="welcome-heading">Make room for<br />a better study sesh.</h1>
-          <p className="welcome-description">
-            Find your people, share a study table, and make progress together.
-            Your next great study session starts here.
-          </p>
-          <div
-            className={`api-status ${isConnected ? 'is-connected' : ''}`}
-            role="status"
-          >
-            <span className="status-dot" aria-hidden="true" />
-            {apiStatus === 'checking' ? 'Connecting to the StudyPot API…' : apiStatus}
-          </div>
-        </div>
-        <div className="welcome-art" aria-hidden="true">
-          <div className="art-sun" />
-          <div className="art-card">
-            <span className="art-book">✳</span>
-            <span className="art-line art-line-long" />
-            <span className="art-line art-line-short" />
-            <span className="art-check">✓</span>
-          </div>
-          <span className="art-sparkle sparkle-one">✦</span>
-          <span className="art-sparkle sparkle-two">✳</span>
-        </div>
-      </section>
+      <Routes>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/sessions/:id" element={<SessionDetailsPlaceholder />} />
+        <Route path="*" element={<section className="empty-panel"><h1>Page not found</h1><Link className="text-link" to="/">Back to sessions</Link></section>} />
+      </Routes>
+    </div>
+  )
+}
 
-      <footer className="site-footer">
-        <span>Good things grow when we learn together.</span>
-        <span className="footer-decoration" aria-hidden="true">✳ &nbsp; ✦ &nbsp; ✳</span>
-      </footer>
-    </main>
+function App() {
+  return (
+    <BrowserRouter>
+      <AppLayout />
+    </BrowserRouter>
   )
 }
 
