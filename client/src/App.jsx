@@ -1,19 +1,7 @@
-import { BrowserRouter, Link, Route, Routes, useParams } from 'react-router-dom'
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom'
 import Dashboard from './pages/Dashboard.jsx'
+import SessionDetails from './pages/SessionDetails.jsx'
 import './App.css'
-
-function SessionDetailsPlaceholder() {
-  const { id } = useParams()
-
-  return (
-    <section className="empty-panel">
-      <p className="eyebrow">Study session</p>
-      <h1>Session details</h1>
-      <p>The details for session {id} will be available here.</p>
-      <Link className="text-link" to="/">Back to sessions</Link>
-    </section>
-  )
-}
 
 function AppLayout() {
   return (
@@ -31,7 +19,7 @@ function AppLayout() {
 
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/sessions/:id" element={<SessionDetailsPlaceholder />} />
+        <Route path="/sessions/:id" element={<SessionDetails />} />
         <Route path="*" element={<section className="empty-panel"><h1>Page not found</h1><Link className="text-link" to="/">Back to sessions</Link></section>} />
       </Routes>
     </div>

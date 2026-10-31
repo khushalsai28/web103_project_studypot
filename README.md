@@ -124,3 +124,15 @@ Students can open a modal from the dashboard to create a study session without l
 6. Open the frontend at `http://localhost:5173`.
 
 The API runs at `http://localhost:3000`. Vite proxies `/api` requests to the backend during development.
+
+### Study session API
+
+- `GET /api/sessions?upcoming=true` — list upcoming sessions; optional `search` and `subject` filters are also supported.
+- `GET /api/sessions/:id` — get session information and participants.
+- `POST /api/sessions` — create a session (`creator_id`, `title`, `subject`, `session_date`, `session_time`, and `location` are required; `description` is optional).
+- `PATCH /api/sessions/:id` — update one or more session fields.
+- `DELETE /api/sessions/:id` — delete a session and its memberships.
+- `POST /api/sessions/:id/members` — join with a JSON body containing `student_id`.
+- `DELETE /api/sessions/:id/members/:studentId` — leave a session.
+
+The demo UI uses student ID `1` as the selected student. Run the server route tests with `npm test`.

@@ -22,7 +22,7 @@ function Dashboard() {
       setError('')
 
       try {
-        const data = await apiRequest('/sessions', { signal: controller.signal })
+        const data = await apiRequest('/sessions?upcoming=true', { signal: controller.signal })
         setSessions(data.sessions)
       } catch (requestError) {
         if (!controller.signal.aborted) {

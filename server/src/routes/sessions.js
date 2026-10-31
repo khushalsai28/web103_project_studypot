@@ -101,6 +101,10 @@ export function createSessionsRouter(pool) {
       filters.push(`s.subject ILIKE $${values.length}`)
     }
 
+    if (request.query.upcoming === 'true') {
+      filters.push('s.session_date >= CURRENT_DATE')
+    }
+
     const where = filters.length ? `WHERE ${filters.join(' AND ')}` : ''
     const { rows } = await pool.query(
       `SELECT s.*, creator.name AS creator_name,
@@ -152,6 +156,71 @@ export function createSessionsRouter(pool) {
     response.json({ session: rows[0] })
   })
 
+  router.post('/:id/members', async (request, response) => {
+    const sessionId = parseId(request.params.id)
+    const studentId = parseId(request.body?.student_id)
+
+    if (!sessionId || !studentId) {
+      return response.status(400).json({
+        error: 'Session id and student_id must be positive integers',
+      })
+    }
+
+    const session = await pool.query(
+      'SELECT id FROM study_sessions WHERE id = $1',
+      [sessionId],
+    )
+    if (!session.rows[0]) {
+      return response.status(404).json({ error: 'Study session not found' })
+    }
+
+    const student = await pool.query(
+      'SELECT id FROM students WHERE id = $1',
+      [studentId],
+    )
+    if (!student.rows[0]) {
+      return response.status(404).json({ error: 'Student not found' })
+    }
+
+    const membership = await pool.query(
+      `INSERT INTO session_memberships (student_id, session_id)
+       VALUES ($1, $2)
+       ON CONFLICT (student_id, session_id) DO NOTHING
+       RETURNING student_id, session_id, joined_at`,
+      [studentId, sessionId],
+    )
+
+    if (!membership.rows[0]) {
+      return response.status(409).json({ error: 'Student has already joined this session' })
+    }
+
+    response.status(201).json({ membership: membership.rows[0] })
+  })
+
+  router.delete('/:id/members/:studentId', async (request, response) => {
+    const sessionId = parseId(request.params.id)
+    const studentId = parseId(request.params.studentId)
+
+    if (!sessionId || !studentId) {
+      return response.status(400).json({
+        error: 'Session id and student id must be positive integers',
+      })
+    }
+
+    const { rows } = await pool.query(
+      `DELETE FROM session_memberships
+       WHERE session_id = $1 AND student_id = $2
+       RETURNING student_id, session_id`,
+      [sessionId, studentId],
+    )
+
+    if (!rows[0]) {
+      return response.status(404).json({ error: 'Student is not a member of this session' })
+    }
+
+    response.status(204).end()
+  })
+
   router.post('/', async (request, response) => {
     const fields = request.body && typeof request.body === 'object' &&
       !Array.isArray(request.body) ? request.body : {}
@@ -166,12 +235,29 @@ export function createSessionsRouter(pool) {
       return response.status(400).json({ error: 'Invalid session data', details: errors })
     }
 
+    const creator = await pool.query(
+      'SELECT id FROM students WHERE id = $1',
+      [creatorId],
+    )
+    if (!creator.rows[0]) {
+      return response.status(404).json({ error: 'Creator student not found' })
+    }
+
     const normalized = normalizeSessionFields(fields)
     const { rows } = await pool.query(
-      `INSERT INTO study_sessions
-        (creator_id, title, subject, description, session_date, session_time, location)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
-       RETURNING *`,
+      `WITH created_session AS (
+         INSERT INTO study_sessions
+           (creator_id, title, subject, description, session_date, session_time, location)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)
+         RETURNING *
+       ), creator_membership AS (
+         INSERT INTO session_memberships (student_id, session_id)
+         SELECT creator_id, id FROM created_session
+         RETURNING session_id
+       )
+       SELECT created_session.*
+       FROM created_session
+       JOIN creator_membership ON creator_membership.session_id = created_session.id`,
       [
         creatorId,
         normalized.title,

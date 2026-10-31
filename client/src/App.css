@@ -350,6 +350,171 @@
   text-decoration: none;
 }
 
+.back-link {
+  display: inline-block;
+  margin-bottom: 27px;
+}
+
+.details-heading {
+  margin-bottom: 25px;
+}
+
+.details-heading .subject-pill {
+  display: inline-block;
+}
+
+.details-heading h1 {
+  margin: 14px 0 9px;
+  color: #252d49;
+  font-size: clamp(30px, 4vw, 38px);
+  letter-spacing: -1.2px;
+  line-height: 1.15;
+}
+
+.details-heading > p {
+  margin: 0;
+  color: #71809d;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(280px, 1fr);
+  gap: 26px;
+}
+
+.information-panel,
+.membership-panel {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid #dce1ed;
+  border-radius: 13px;
+  background: #fff;
+}
+
+.information-panel h2,
+.membership-panel h2 {
+  margin: 0 0 22px;
+  color: #28314e;
+  font-size: 20px;
+}
+
+.session-information {
+  margin: 0;
+}
+
+.session-information > div {
+  min-height: 48px;
+  display: grid;
+  grid-template-columns: minmax(100px, 0.7fr) minmax(0, 1.3fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.session-information dt {
+  color: #687896;
+  font-size: 14px;
+  font-weight: 650;
+}
+
+.session-information dd {
+  margin: 0;
+  color: #303853;
+  font-size: 14px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.membership-panel {
+  background: #f8f9fd;
+}
+
+.membership-panel h2 {
+  margin-bottom: 12px;
+}
+
+.membership-panel > p {
+  margin: 0 0 8px;
+  color: #687896;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.membership-panel .membership-button {
+  width: 100%;
+  margin: 15px 0 10px;
+}
+
+.membership-panel .membership-hint {
+  color: #7a859d;
+  font-size: 12px;
+}
+
+.membership-panel .success-notice {
+  margin: 12px 0 0;
+}
+
+.membership-panel .form-error {
+  margin-top: 10px;
+}
+
+.refresh-participants {
+  margin: 3px 0 10px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
+.participants-section {
+  margin-top: 30px;
+}
+
+.participant-list {
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 14px;
+  list-style: none;
+}
+
+.participant-card {
+  min-width: 0;
+  min-height: 58px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #e1e5ef;
+  border-radius: 10px;
+  background: #f8f9fd;
+  color: #303853;
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.participant-avatar {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f0edff;
+  color: #6854cb;
+  font-weight: 750;
+}
+
+.host-label {
+  margin-left: auto;
+  color: #73809b;
+  font-size: 11px;
+  font-weight: 600;
+}
+
 .modal-backdrop {
   position: fixed;
   z-index: 5;
@@ -492,6 +657,11 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
   }
+
+  .details-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
 }
 
 @media (max-width: 600px) {
@@ -545,6 +715,15 @@
   .session-grid {
     grid-template-columns: 1fr;
     gap: 13px;
+  }
+
+  .information-panel,
+  .membership-panel {
+    padding: 19px;
+  }
+
+  .session-information > div {
+    grid-template-columns: 90px minmax(0, 1fr);
   }
 
   .error-panel {

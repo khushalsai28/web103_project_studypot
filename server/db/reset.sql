@@ -46,6 +46,7 @@ VALUES
    CURRENT_DATE + 3, '11:00', 'Student Union, Table 8');
 
 INSERT INTO session_memberships (student_id, session_id) VALUES
+  (1, 1),
   (2, 1),
   (3, 1),
   (1, 2);
