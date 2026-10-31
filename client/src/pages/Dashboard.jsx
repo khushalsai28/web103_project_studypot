@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
+import CreateSessionModal from '../components/CreateSessionModal.jsx'
 import SessionCard from '../components/SessionCard.jsx'
 import { apiRequest } from '../api.js'
 
@@ -10,6 +11,8 @@ function Dashboard() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [retryToken, setRetryToken] = useState(0)
+  const [createModalOpen, setCreateModalOpen] = useState(false)
+  const [notice, setNotice] = useState('')
 
   useEffect(() => {
     const controller = new AbortController()
@@ -63,7 +66,12 @@ function Dashboard() {
           <h1>Find your study crew.</h1>
           <p className="page-description">Explore upcoming sessions and learn better together.</p>
         </div>
+        <button className="button button-primary create-session-button" type="button" onClick={() => setCreateModalOpen(true)}>
+          <span aria-hidden="true">+</span> Create session
+        </button>
       </section>
+
+      {notice && <p className="success-notice" role="status">{notice}</p>}
 
       <section className="filters-panel" aria-label="Filter study sessions">
         <label className="search-field">
@@ -141,6 +149,17 @@ function Dashboard() {
         <h2>How it works</h2>
         <p>1. Discover sessions <span aria-hidden="true">→</span> 2. View details <span aria-hidden="true">→</span> 3. Join your group</p>
       </aside>
+
+      {createModalOpen && (
+        <CreateSessionModal
+          onClose={() => setCreateModalOpen(false)}
+          onCreated={() => {
+            setCreateModalOpen(false)
+            setNotice('Your study session has been created.')
+            setRetryToken((token) => token + 1)
+          }}
+        />
+      )}
     </main>
   )
 }
