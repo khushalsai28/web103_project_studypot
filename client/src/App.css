@@ -1,0 +1,277 @@
+#root {
+  min-height: 100vh;
+}
+
+.app-shell {
+  width: min(1120px, calc(100% - 64px));
+  min-height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header {
+  height: 92px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #233a30;
+  font-size: 24px;
+  font-weight: 750;
+  letter-spacing: -1px;
+  text-decoration: none;
+}
+
+.wordmark-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: #d7edc4;
+  color: #31593a;
+  font-size: 23px;
+  font-family: Georgia, serif;
+  font-style: italic;
+}
+
+.header-note {
+  color: #647568;
+  font-size: 14px;
+}
+
+.welcome-card {
+  position: relative;
+  flex: 1;
+  min-height: 490px;
+  padding: clamp(40px, 8vw, 104px);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  border-radius: 28px;
+  background:
+    radial-gradient(ellipse at 86% 20%, rgba(245, 205, 132, 0.48), transparent 25%),
+    linear-gradient(115deg, #f3f5e9 0%, #e8f0db 58%, #dcebcf 100%);
+}
+
+.welcome-copy {
+  position: relative;
+  z-index: 1;
+  max-width: 580px;
+}
+
+.eyebrow {
+  margin: 0 0 22px;
+  color: #58744e;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: #263d32;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(46px, 7vw, 78px);
+  font-weight: 500;
+  letter-spacing: -3.4px;
+  line-height: 0.99;
+}
+
+.welcome-description {
+  max-width: 410px;
+  margin: 24px 0 26px;
+  color: #617064;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.api-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border: 1px solid rgba(91, 112, 90, 0.17);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.62);
+  color: #657365;
+  font-size: 12px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #dda34e;
+}
+
+.is-connected .status-dot {
+  background: #5f9a5c;
+}
+
+.welcome-art {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  right: 7%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.art-sun {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  top: 28px;
+  left: 36px;
+  border-radius: 50%;
+  background: #f1d89e;
+  opacity: 0.72;
+}
+
+.art-card {
+  position: absolute;
+  width: 190px;
+  height: 230px;
+  top: 54px;
+  left: 75px;
+  padding: 30px 25px;
+  box-sizing: border-box;
+  transform: rotate(8deg);
+  border: 1px solid rgba(73, 100, 72, 0.12);
+  border-radius: 20px;
+  background: #fffdf6;
+  box-shadow: 0 24px 55px rgba(63, 81, 56, 0.15);
+}
+
+.art-book {
+  width: 56px;
+  height: 56px;
+  margin: 5px auto 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 18px;
+  background: #d7edc4;
+  color: #668d55;
+  font-size: 36px;
+}
+
+.art-line {
+  display: block;
+  height: 9px;
+  margin: 0 auto 10px;
+  border-radius: 20px;
+  background: #e4e9dc;
+}
+
+.art-line-long {
+  width: 116px;
+}
+
+.art-line-short {
+  width: 78px;
+}
+
+.art-check {
+  position: absolute;
+  width: 38px;
+  height: 38px;
+  right: -14px;
+  bottom: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #8ab77b;
+  color: white;
+  font-size: 20px;
+  box-shadow: 0 7px 18px rgba(79, 125, 70, 0.25);
+}
+
+.art-sparkle {
+  position: absolute;
+  color: #a4bb78;
+}
+
+.sparkle-one {
+  top: 7px;
+  right: 33px;
+  font-size: 42px;
+}
+
+.sparkle-two {
+  left: 12px;
+  bottom: 47px;
+  color: #d3a957;
+  font-size: 30px;
+}
+
+.site-footer {
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #768277;
+  font-size: 12px;
+}
+
+.footer-decoration {
+  color: #92aa7d;
+  letter-spacing: 2px;
+}
+
+@media (max-width: 760px) {
+  .app-shell {
+    width: min(100% - 32px, 560px);
+  }
+
+  .site-header {
+    height: 74px;
+  }
+
+  .header-note {
+    font-size: 12px;
+  }
+
+  .welcome-card {
+    min-height: 640px;
+    padding: 38px 28px;
+    align-items: flex-start;
+  }
+
+  .welcome-art {
+    width: 280px;
+    height: 280px;
+    top: auto;
+    right: 50%;
+    bottom: 10px;
+    transform: translateX(50%) scale(0.82);
+    transform-origin: bottom center;
+  }
+
+  .site-footer {
+    min-height: 70px;
+    gap: 12px;
+  }
+
+  .footer-decoration {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 390px) {
+  .header-note {
+    max-width: 100px;
+    text-align: right;
+  }
+
+  .welcome-card {
+    min-height: 660px;
+  }
+}
